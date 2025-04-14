@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hetvi Fashion Hub - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+
+    <!-- Sidebar -->
+    <div class="flex">
+        <aside class="w-64 bg-blue-900 dark:bg-gray-800 h-screen p-4 text-white hidden md:block">
+            <h2 class="text-2xl font-bold mb-6">Hetvi Fashion Hub</h2>
+            <ul class="space-y-4">
+                <li><a href="#" class="block py-4 px-4 hover:bg-blue-700 rounded">🏠 Dashboard</a></li>
+                <li><a href="#" class="block py-4 px-4 hover:bg-blue-700 rounded">📦 Orders</a></li>
+                <li><a href="#" class="block py-4 px-4 hover:bg-blue-700 rounded">🛒 Products</a></li>
+                <li><a href="#" class="block py-4 px-4 hover:bg-blue-700 rounded">👥 Customers</a></li>
+                <li><a href="#" class="block py-4 px-4 hover:bg-blue-700 rounded">📊 Reports</a></li>
+                <li><a href="#" class="block py-4 px-4 hover:bg-blue-700 rounded">⚙️ Settings</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!-- Navbar -->
+            <div class="flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded shadow">
+                <input type="text" placeholder="Search..." class="p-2 border rounded w-1/3 dark:bg-gray-700 dark:text-white">
+                <div class="relative">
+                    <button onclick="toggleDropdown()" class="p-2 bg-gray-400 rounded">👤 Admin ▼</button>
+                    <div id="dropdownMenu" class="absolute right-0 mt-2 w-40 gray-300 shadow-lg rounded hidden ">
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-400">Profile</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-400">Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded shadow text-center">
+                    <h3 class="text-xl font-bold">Total Sales</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg mt-2">₹10,245</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded shadow text-center">
+                    <h3 class="text-xl font-bold">Orders</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg mt-2">1,245</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded shadow text-center">
+                    <h3 class="text-xl font-bold">Revenue</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg mt-2">₹24,500</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded shadow text-center">
+                    <h3 class="text-xl font-bold">Customers</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg mt-2">6,732</p>
+                </div>
+            </div>
+
+
+            <!-- Order Filters -->
+            <div class="flex space-x-4 mt-6">
+                <button onclick="filterOrders('all')" class="px-4 py-2 bg-blue-500 text-white rounded">All</button>
+                <button onclick="filterOrders('pending')" class="px-4 py-2 bg-yellow-500 text-white rounded">Pending</button>
+                <button onclick="filterOrders('completed')" class="px-4 py-2 bg-green-500 text-white rounded">Completed</button>
+                <button onclick="filterOrders('canceled')" class="px-4 py-2 bg-red-500 text-white rounded">Canceled</button>
+            </div>
+
+            <!-- Recent Orders Table -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow mt-6">
+                <h3 class="text-xl font-bold mb-4">Recent Orders</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200 dark:bg-gray-700">
+                            <th class="p-2">Order ID</th>
+                            <th class="p-2">Customer</th>
+                            <th class="p-2">Date</th>
+                            <th class="p-2">Payment</th>
+                            <th class="p-2">Status</th>
+                            <th class="p-2">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable">
+                        <tr class="text-center border-t" data-status="completed">
+                            <td class="p-2">#1021</td>
+                            <td class="p-2">Dev Gohel</td>
+                            <td class="p-2">Feb 10, 2025</td>
+                            <td class="p-2">Credit Card</td>
+                            <td class="p-2 text-green-500">Completed</td>
+                            <td class="p-2">₹125</td>
+                        </tr>
+                        <tr class="text-center border-t" data-status="pending">
+                            <td class="p-2">#1022</td>
+                            <td class="p-2">Pooja Parmar</td>
+                            <td class="p-2">Feb 9, 2025</td>
+                            <td class="p-2">UPI</td>
+                            <td class="p-2 text-yellow-500">Pending</td>
+                            <td class="p-2">₹85</td>
+                        </tr>
+                        <tr class="text-center border-t" data-status="canceled">
+                            <td class="p-2">#1023</td>
+                            <td class="p-2">Sneha Mudaliar</td>
+                            <td class="p-2">Feb 8, 2025</td>
+                            <td class="p-2">Cash</td>
+                            <td class="p-2 text-red-500">Canceled</td>
+                            <td class="p-2">₹200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Sales Chart -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow mt-6">
+                <h3 class="text-xl font-bold mb-4">Sales Overview</h3>
+                <div class="w-full h-80"> 
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sales Chart
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                datasets: [{
+                    label: 'Sales (₹)',
+                    data: [500, 800, 400, 900, 1200, 600, 1000],
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            }
+        });
+
+        // Order Filters
+        function filterOrders(status) {
+            let rows = document.querySelectorAll("#ordersTable tr");
+            rows.forEach(row => {
+                row.style.display = (status === "all" || row.getAttribute("data-status") === status) ? "" : "none";
+            });
+        }
+
+        // User Profile Dropdown Toggle
+        function toggleDropdown() {
+            document.getElementById("dropdownMenu").classList.toggle("hidden");
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function(event) {
+            if (!event.target.closest(".relative")) {
+                document.getElementById("dropdownMenu").classList.add("hidden");
+            }
+        });
+    </script>
+</body>
+</html>
